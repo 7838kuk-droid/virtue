@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>덕 윤리 연구 동향 대시보드</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <!-- Top Summary Area -->
+    <header class="dashboard-header">
+      <h1>덕 윤리 연구 동향 대시보드</h1>
+      <p>KCI 등재지 논문 통합 분석 및 영향력 지형도 시각화</p>
+    </header>
+
+    <div id="app">
+      <!-- KPI Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>총 분석 문헌 수</h3>
+          <div class="value" id="kpi-papers">-</div>
+        </div>
+        <div class="stat-card">
+          <h3>총 인용 횟수</h3>
+          <div class="value" id="kpi-citations">-</div>
+        </div>
+        <div class="stat-card">
+          <h3>최초 발행 연도</h3>
+          <div class="value" id="kpi-first-year">-</div>
+        </div>
+      </div>
+
+      <!-- Charts Area -->
+      <div class="charts-container">
+        <div class="chart-box" id="trend-chart-container"></div>
+        <div class="chart-box" id="treemap-container"></div>
+        <div class="chart-box full-width" id="bubble-chart-container"></div>
+      </div>
+
+      <!-- Drill Down Area -->
+      <div id="drill-down-area" style="display: none; margin-top: 3rem; background: var(--card-bg); padding: 2rem; border-radius: 16px; border: 1px solid var(--border-color); backdrop-filter: blur(12px);">
+        <h2 id="drill-down-title" style="margin-bottom: 1.5rem; color: #fff;">검색된 논문 목록</h2>
+        <div class="table-container">
+          <table class="paper-table">
+            <thead>
+              <tr>
+                <th>발행연도</th>
+                <th>논문명</th>
+                <th>저자명</th>
+                <th>주제분야</th>
+                <th>인용수</th>
+                <th>링크</th>
+              </tr>
+            </thead>
+            <tbody id="paper-table-body">
+              <!-- Dynamically Populated -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script Entry -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
