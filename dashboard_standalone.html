@@ -7749,52 +7749,32 @@ function initTreemap(processedData) {
         show: true,
         formatter: function(params) {
           const name = params.name.replace(/ /g, '\n');
-          // 위아래 투명 spacer로 텍스트 블록을 기하학적 정중앙에 고정
-          return `{sp|}\n{name|${name}}\n{count|(${params.value}건)}\n{sp|}`;
+          return name + '\n(' + params.value + '건)';
         },
+        color: '#ffffff',
+        fontSize: 15,
+        fontWeight: 'bold',
         align: 'center',
         verticalAlign: 'middle',
         position: 'inside',
-        rich: {
-          sp: {
-            color: 'transparent',
-            fontSize: 10,
-            lineHeight: 10
-          },
-          name: { 
-            color: '#ffffff', 
-            fontSize: 18, 
-            fontWeight: 'bold', 
-            align: 'center', 
-            lineHeight: 26,
-            textShadowColor: 'rgba(0,0,0,0.4)',
-            textShadowBlur: 4,
-            textShadowOffsetY: 2
-          },
-          count: { 
-            color: 'rgba(255,255,255,0.7)', 
-            fontSize: 13, 
-            align: 'center',
-            lineHeight: 20
-          }
-        }
+        textShadowColor: 'rgba(0,0,0,0.4)',
+        textShadowBlur: 4,
+        lineHeight: 22
       },
       emphasis: {
         label: {
           show: true,
           formatter: function(params) {
             const name = params.name.replace(/ /g, '\n');
-            return `{sp|}\n{name|${name}}\n{count|(${params.value}건)}\n{sp|}`;
+            return name + '\n(' + params.value + '건)';
           },
-          rich: {
-            sp: {
-              color: 'transparent',
-              fontSize: 10,
-              lineHeight: 10
-            },
-            name: { color: '#ffffff', fontSize: 19, fontWeight: 'bold', align: 'center', lineHeight: 28 },
-            count: { color: '#ffffff', fontSize: 14, align: 'center', lineHeight: 22 }
-          }
+          color: '#ffffff',
+          fontSize: 17,
+          fontWeight: 'bold',
+          align: 'center',
+          verticalAlign: 'middle',
+          position: 'inside',
+          lineHeight: 24
         }
       },
       itemStyle: {
@@ -7926,6 +7906,8 @@ function updateSubCategoryChart(categoryName) {
         selectedMode: 'single',
         center: ['50%', '50%'],
         radius: ['30%', '50%'],
+        avoidLabelOverlap: true,
+        minShowLabelAngle: 5,
         itemStyle: {
           borderRadius: 10,
           borderColor: '#0f172a',
@@ -7933,41 +7915,31 @@ function updateSubCategoryChart(categoryName) {
         },
         label: { 
           show: true,
-          position: 'outer',
-          alignTo: 'labelLine',
+          position: 'outside',
           formatter: function(params) {
-            let base = `{name|${params.name}}\n{count|${params.value}건}`;
-            if (params.data.overlap > 0) {
-              base += `\n{percent|(${params.percent}%, 중복 ${params.data.overlap}건)}`;
-            } else {
-              base += `\n{percent|(${params.percent}%)}`;
-            }
-            return base;
-          }, 
-          width: 140,
-          overflow: 'break',
+            return '{nm|' + params.name + '}\n{pct|' + params.value + '건 (' + params.percent + '%)}';
+          },
           rich: {
-            name: { fontSize: 14, fontWeight: 'bold', color: '#e2e8f0', align: 'center', height: 22 },
-            count: { fontSize: 14, color: '#f8fafc', fontWeight: 'bold', align: 'center', height: 20 },
-            percent: { fontSize: 12, color: '#cbd5e1', align: 'center', height: 18 }
+            nm: { fontSize: 12, fontWeight: 'bold', color: '#e2e8f0', align: 'center' },
+            pct: { fontSize: 10, color: '#94a3b8', align: 'center' }
           }
+        },
+        labelLine: {
+          show: true,
+          length: 10,
+          length2: 15,
+          smooth: true
         },
         emphasis: {
           label: { 
-             formatter: function(params) {
-                let base = `{name|${params.name}}\n{count|${params.value}건}`;
-                if (params.data.overlap > 0) {
-                  base += `\n{percent|(${params.percent}%, 중복 ${params.data.overlap}건)}`;
-                } else {
-                  base += `\n{percent|(${params.percent}%)}`;
-                }
-                return base;
-             },
-             rich: {
-                name: { fontSize: 14, fontWeight: 'bold', color: '#ffffff', align: 'center', height: 22 },
-                count: { fontSize: 14, color: '#ffffff', fontWeight: 'bold', align: 'center', height: 20 },
-                percent: { fontSize: 12, color: '#e2e8f0', align: 'center', height: 18 }
-             }
+            formatter: function(params) {
+              const pct = params.percent;
+              return `{name|${params.name}}\n{percent|${params.value}건 (${pct}%)}`;
+            },
+            rich: {
+              name: { fontSize: 14, fontWeight: 'bold', color: '#ffffff', align: 'center', height: 22 },
+              percent: { fontSize: 12, color: '#e2e8f0', align: 'center', height: 18 }
+            }
           }
         },
         color: ['#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6', 'rgba(255,255,255,0.2)', 'rgba(255,255,255,0.4)'],
