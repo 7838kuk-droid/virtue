@@ -269,6 +269,87 @@ body {
   backdrop-filter: blur(16px);
 }
 
+.search-container {
+  margin-left: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#paper-search-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 6px 15px 6px 35px;
+  color: #f8fafc;
+  font-size: 0.85rem;
+  width: 220px;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+#paper-search-input:focus {
+  width: 280px;
+  border-color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  font-size: 0.9rem;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* ===== GLOBAL SEARCH AREA ===== */
+.global-search-box {
+  background: var(--card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: var(--glass-shadow);
+  transition: border-color 0.3s;
+}
+
+.global-search-box:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+#global-paper-search {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 0.8rem 1rem 0.8rem 2.8rem;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s;
+}
+
+#global-paper-search:focus {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+.global-search-box .search-icon {
+  left: 1rem;
+  font-size: 1.2rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 .table-container { overflow-x: auto; }
 
 .paper-table {
@@ -448,10 +529,23 @@ footer a { color: #475569; text-decoration: none; }
     <!-- Dynamic Category Featured Papers will be appended here -->
     <div id="dynamic-category-featured"></div>
 
+    <!-- Global Search Area (Always Visible) -->
+    <div class="global-search-box">
+      <div class="section-title">논문 검색 (데이터베이스 전체 검색)</div>
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="global-paper-search" placeholder="논문 제목, 저자, 주제어 등으로 모든 논문을 검색해보세요..." />
+      </div>
+    </div>
+
     <!-- Drill Down -->
     <div id="drill-down-area" class="drill-down-area">
       <div class="section-title">
         <span id="drill-down-title">검색된 논문 목록</span>
+        <div class="search-container">
+          <span class="search-icon">🔍</span>
+          <input type="text" id="paper-search-input" placeholder="논문명, 저자명 검색..." />
+        </div>
       </div>
       <div class="table-container">
         <table class="paper-table">
@@ -8029,18 +8123,39 @@ function renderCategoryTopPapers(processedData) {
   container.innerHTML = html;
 }
 
+let currentDrillDownPapers = [];
+let currentDrillDownTitle = '';
+
 function renderDrillDown(papers, titleStr, caller = null) {
   const area = document.getElementById('drill-down-area');
   const title = document.getElementById('drill-down-title');
   const tbody = document.getElementById('paper-table-body');
+  const searchInput = document.getElementById('paper-search-input');
+  
+  currentDrillDownPapers = papers;
+  currentDrillDownTitle = titleStr;
+  
+  // If update came from global search, we don't clear the local search immediately
+  // Or actually, let's keep the local search for secondary filtering
+  if (caller !== 'global') {
+    searchInput.value = ''; 
+    const globalSearch = document.getElementById('global-paper-search');
+    if (globalSearch) globalSearch.value = ''; // Clear global search when chart is clicked
+  }
   
   area.style.display = 'block';
-  title.textContent = titleStr + ` (총 ${papers.length}건)`;
+  renderPaperTable(papers);
+}
+
+function renderPaperTable(papersToRender) {
+  const title = document.getElementById('drill-down-title');
+  const tbody = document.getElementById('paper-table-body');
   
+  title.textContent = currentDrillDownTitle + ` (총 ${papersToRender.length}건)`;
   tbody.innerHTML = '';
   
   // Sort by citations descending
-  papers.sort((a,b) => (b['인용된 총 횟수']||0) - (a['인용된 총 횟수']||0)).forEach(p => {
+  papersToRender.sort((a,b) => (b['인용된 총 횟수']||0) - (a['인용된 총 횟수']||0)).forEach(p => {
     const tr = document.createElement('tr');
     
     // KCI Link construction fallback
@@ -8065,9 +8180,49 @@ function renderDrillDown(papers, titleStr, caller = null) {
     `;
     tbody.appendChild(tr);
   });
-  
-  // (We removed the side buttons, so tooltips handle scrolling natively)
 }
+
+// 실시간 검색 기능 (글로벌 및 지역 검색 통합)
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('paper-search-input');
+    const globalSearch = document.getElementById('global-paper-search');
+
+    // 지역 검색 (현재 리스트 내 필터링)
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (!term) {
+                renderPaperTable(currentDrillDownPapers);
+                return;
+            }
+            const filtered = currentDrillDownPapers.filter(p => {
+                return (p['논문명'] || '').toLowerCase().includes(term) || 
+                       (p['저자명'] || '').toLowerCase().includes(term);
+            });
+            renderPaperTable(filtered);
+        });
+    }
+
+    // 글로벌 검색 (전체 데이터 대상)
+    if (globalSearch) {
+        globalSearch.addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase().trim();
+            if (!term) {
+                document.getElementById('drill-down-area').style.display = 'none';
+                return;
+            }
+            
+            const filtered = fullData.filter(p => {
+                return (p['논문명'] || '').toLowerCase().includes(term) || 
+                       (p['저자명'] || '').toLowerCase().includes(term) ||
+                       (p['주제분야'] || '').toLowerCase().includes(term) ||
+                       (p['초록'] || '').toLowerCase().includes(term);
+            });
+            
+            renderDrillDown(filtered, `통합 검색 결과: "${term}"`, 'global');
+        });
+    }
+});
 
 window.showPaperInfo = function(encodedData) {
   const p = JSON.parse(decodeURIComponent(encodedData));

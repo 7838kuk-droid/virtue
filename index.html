@@ -33,8 +33,9 @@
 
       <!-- Charts Area -->
       <div class="charts-container">
-        <div class="chart-box" id="trend-chart-container"></div>
+        <div class="chart-box full-width" id="trend-chart-container"></div>
         <div class="chart-box" id="treemap-container"></div>
+        <div class="chart-box" id="applied-chart-container"></div>
         <div class="chart-box full-width" id="bubble-chart-container"></div>
       </div>
 
@@ -50,7 +51,9 @@
                 <th>저자명</th>
                 <th>주제분야</th>
                 <th>인용수</th>
-                <th>링크</th>
+                <th>연평균</th>
+                <th>상세정보</th>
+                <th>원문</th>
               </tr>
             </thead>
             <tbody id="paper-table-body">
@@ -63,5 +66,28 @@
 
     <!-- Script Entry -->
     <script type="module" src="/src/main.js"></script>
+
+    <dialog id="infoModal" style="background:#0f172a; color:#e2e8f0; border:1px solid #3b82f6; border-radius:12px; padding:24px; max-width:600px; max-height:80vh; overflow-y:auto; margin:auto; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+      <h3 id="modalTitle" style="margin-top:0; color:#fbbf24; font-size:1.2rem; margin-bottom: 1rem; line-height: 1.4;"></h3>
+      <div id="modalContent" style="line-height:1.6; font-size:15px; margin-bottom: 20px;"></div>
+      <div style="text-align: right;">
+        <button onclick="document.getElementById('infoModal').close()" class="link-btn" style="background: rgba(255,255,255,0.1); border:none; padding:8px 16px; cursor:pointer;">닫기</button>
+      </div>
+    </dialog>
+    <script>
+      window.showPaperInfo = function(encodedData) {
+        const p = JSON.parse(decodeURIComponent(encodedData));
+        document.getElementById('modalTitle').textContent = p['논문명'];
+        document.getElementById('modalContent').innerHTML = `
+          <strong style="color:#38bdf8;">저자:</strong> ${p['저자명']}<br/>
+          <strong style="color:#38bdf8;">학술지:</strong> ${p['학술지명'] || '정보 없음'} (${p['발행기관'] || '정보 없음'})<br/>
+          <strong style="color:#38bdf8;">발행연도:</strong> ${p['발행연도']}<br/>
+          <strong style="color:#38bdf8;">키워드:</strong> ${p['핵심어'] || '정보 없음'}<br/><br/>
+          <strong style="color:#38bdf8;">초록:</strong><br/>
+          <div style="background:rgba(255,255,255,0.05); padding:12px; border-radius:6px; margin-top:8px;">${p['초록'] || '초록 정보가 없습니다.'}</div>
+        `;
+        document.getElementById('infoModal').showModal();
+      };
+    </script>
   </body>
 </html>
