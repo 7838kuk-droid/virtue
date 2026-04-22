@@ -545,8 +545,7 @@ footer a { color: #475569; text-decoration: none; }
         <span id="drill-down-title">검색된 논문 목록</span>
         <div class="search-container" style="gap: 12px;">
           <div class="export-buttons" style="display: flex; gap: 8px;">
-            <button id="export-csv-btn" class="link-btn" style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; cursor:pointer;">Excel 저장</button>
-            <button id="export-img-btn" class="link-btn" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; cursor:pointer;">Image 저장</button>
+            <button id="export-img-btn" class="link-btn" style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.4); color: #fbbf24; cursor:pointer;">데이터 리스트 이미지로 저장</button>
           </div>
           <div style="position: relative; display: flex; align-items: center;">
             <span class="search-icon">🔍</span>
@@ -8231,36 +8230,6 @@ document.addEventListener('DOMContentLoaded', () => {
             renderDrillDown(filtered, `통합 검색 결과: "${term}"`, 'global');
         });
     }
-
-    // Export Excel (CSV)
-    document.getElementById('export-csv-btn').addEventListener('click', () => {
-        if (!currentFilteredPapers.length) return;
-        
-        const headers = ["발행연도", "논문명", "저자명", "분류(대)", "분류(소)", "인용수", "연평균인용지수", "KCI URL"];
-        const rows = currentFilteredPapers.map(p => [
-            p['발행연도'],
-            `"${(p['논문명'] || '').replace(/"/g, '""')}"`,
-            `"${(p['저자명'] || '').replace(/"/g, '""')}"`,
-            `"${(p.categories || []).join(', ')}"`,
-            `"${(p.subCategories || []).join(', ')}"`,
-            p['인용된 총 횟수'] || 0,
-            parseFloat(p['연평균인용지수'] || 0).toFixed(2),
-            p['URL'] || `https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=${p['논문 ID']}`
-        ]);
-        
-        let csvContent = "\uFEFF"; // Excel BOM for Korean
-        csvContent += headers.join(",") + "\n";
-        rows.forEach(r => { csvContent += r.join(",") + "\n"; });
-        
-        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        const link = document.createElement("a");
-        link.href = URL.createObjectURL(blob);
-        link.setAttribute("download", `덕윤리_연구목록_${new Date().toISOString().slice(0,10)}.csv`);
-        link.style.display = 'none';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
 
     // Export Image (PNG)
     document.getElementById('export-img-btn').addEventListener('click', () => {
