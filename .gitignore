@@ -25,4 +25,6 @@ dist-ssr
 
 # Raw Data & Caches
 *.xlsx
+*.xls
+scratch/
 .npm-cache
