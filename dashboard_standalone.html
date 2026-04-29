@@ -33894,6 +33894,23 @@ function processData(rawData) {
   const currentYear = new Date().getFullYear();
   let earliestYear = 9999;
   
+  // 정규식 및 공통 검색조건 사전 컴파일 (최적화)
+  const precompiledRegexes = {};
+  for (let mainCat in categoryConfig) {
+    categoryConfig[mainCat].forEach(subCat => {
+      subCat.keywords.forEach(word => {
+        if (/^[a-z]+$/i.test(word) && !precompiledRegexes[word]) {
+          precompiledRegexes[word] = new RegExp("(?:^|[^a-zA-Z])" + word + "(?:$|[^a-zA-Z])", "i");
+        }
+      });
+    });
+  }
+  const aiRegExp = new RegExp("(?:^|[^a-zA-Z])ai(?:$|[^a-zA-Z])", "i");
+  const strongTechKeywords = ["인공지능", "ai", "알고리즘", "로봇", "머신러닝", "딥러닝", "llm", "챗봇"];
+  const hardExclusions = {
+    "응용/실천 윤리": ["상대주의", "아리스토텔레스", "형평", "니코마코스", "메타윤리", "객관주의", "도덕적 실재론", "퇴계", "율곡", "성리학", "이황", "이이", "공자", "맹자", "주희"]
+  };
+  
   const processed = rawData.map(paper => {
     const pubYear = parseInt(paper['발행연도']);
     if (!isNaN(pubYear) && pubYear < earliestYear) earliestYear = pubYear;
@@ -33922,24 +33939,14 @@ function processData(rawData) {
       
       const titleLower = title.toLowerCase();
       const abstractLower = (abstract || "").toLowerCase();
+      const searchArea = titleLower + " " + abstractLower; // 문자열 결합을 루프 바깥에서 1회만 수행
       
-      // 부적합 키워드 (특정 카테고리에서 절대로 제외할 단어들)
-      const hardExclusions = {
-        "응용/실천 윤리": ["상대주의", "아리스토텔레스", "형평", "니코마코스", "메타윤리", "객관주의", "도덕적 실재론", "퇴계", "율곡", "성리학", "이황", "이이", "공자", "맹자", "주희"]
-      };
+      const hasStrongTechInTitle = strongTechKeywords.some(skw => {
+          if (skw === "ai") return aiRegExp.test(titleLower);
+          return titleLower.includes(skw);
+      });
 
       for (let mainCat in categoryConfig) {
-        // 제목에 강한 기술 키워드가 있으면 배제 리스트를 무시함 (예: "AI 시대의 아리스토텔레스")
-        const strongTechKeywords = ["인공지능", "ai", "알고리즘", "로봇", "머신러닝", "딥러닝", "llm", "챗봇"];
-        const hasStrongTechInTitle = strongTechKeywords.some(skw => {
-            if (skw === "ai") {
-                const reg = new RegExp("(?:^|[^a-zA-Z])ai(?:$|[^a-zA-Z])", "i");
-                return titleLower.match(reg);
-            }
-            return titleLower.includes(skw);
-        });
-
-        // 제목에 배제 키워드가 있더라도, 강력한 기술 키워드가 제목에 있으면 통과
         if (hardExclusions[mainCat] && hardExclusions[mainCat].some(ex => titleLower.includes(ex)) && !hasStrongTechInTitle) {
           continue;
         }
@@ -33949,14 +33956,8 @@ function processData(rawData) {
           for (let word of subCat.keywords) {
             let isMatch = false;
             
-            // 모든 카테고리에서 제목 + 초록을 검색 범위로 함
-            const searchArea = titleLower + " " + abstractLower;
-
-            if (/^[a-z]+$/i.test(word)) {
-               // 영문 키워드(특히 ai)가 다른 영문 단어 속에 포함되지 않게 하되, 
-               // 한국어 조사 등과는 매칭되도록 경계 정규표현식 개선
-               const regex = new RegExp("(?:^|[^a-zA-Z])" + word + "(?:$|[^a-zA-Z])", "i");
-               if (regex.test(searchArea)) isMatch = true;
+            if (precompiledRegexes[word]) {
+               if (precompiledRegexes[word].test(searchArea)) isMatch = true;
             } else {
                if (searchArea.includes(word)) {
                  if (word === "도교" && searchArea.includes("그리스도교")) continue;
@@ -34004,7 +34005,22 @@ function processData(rawData) {
       kciKeywords: (paper['주제어'] || "").split(/[,;]/).map(k => k.trim()).filter(k => k),
       categoryDisplay: categoriesArray.join(", "),
       overlapCount: categoriesArray.length,
-      연평균인용지수: parseFloat(annualCitationIdx)
+      연평균인용지수: parseFloat(annualCitationIdx),
+      globalSearchString: [
+          paper['논문명'] || '',
+          paper['저자명'] || '',
+          paper['소속기관'] || '',
+          paper['주제분야'] || '',
+          paper['주제어'] || '',
+          paper['학술지명'] || '',
+          paper['초록'] || ''
+      ].join(' ').toLowerCase(),
+      localSearchString: [
+          paper['논문명'] || '',
+          paper['저자명'] || '',
+          paper['주제어'] || '',
+          paper['학술지명'] || ''
+      ].join(' ').toLowerCase()
     };
   });
   
@@ -34647,7 +34663,6 @@ function renderCategoryTopPapers(processedData) {
       
       top3.forEach((p, idx) => {
         const kciLink = p['URL'] || `https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=${p['논문 ID']}`;
-        const infoArg = encodeURIComponent(JSON.stringify(p)).replace(/'/g, "%27");
         html += `
           <div class="featured-card">
             <div class="fc-rank">${ranks[idx]}</div>
@@ -34655,7 +34670,7 @@ function renderCategoryTopPapers(processedData) {
             <div class="fc-meta">
               <span>${p['저자명']} · ${p['발행연도']}</span>
               <span class="fc-citation">인용: ${p['인용된 총 횟수'] || 0}회</span>
-              <button onclick="showPaperInfo('${infoArg}')" class="link-btn" style="margin-left:auto; margin-right:8px; border:none; cursor:pointer; background:rgba(255,255,255,0.15);">정보 더보기</button>
+              <button onclick="showPaperInfoById('${p['논문 ID']}')" class="link-btn" style="margin-left:auto; margin-right:8px; border:none; cursor:pointer; background:rgba(255,255,255,0.15);">정보 더보기</button>
               <a href="${kciLink}" target="_blank" class="link-btn">KCI 원문 열람</a>
             </div>
           </div>
@@ -34710,7 +34725,6 @@ function renderPaperTable(papersToRender) {
     const tr = document.createElement('tr');
     
     const kciLink = p['URL'] || `https://www.kci.go.kr/kciportal/ci/sereArticleSearch/ciSereArtiView.kci?sereArticleSearchBean.artiId=${p['논문 ID']}`;
-    const infoArg = encodeURIComponent(JSON.stringify(p)).replace(/'/g, "%27");
     
     tr.innerHTML = `
       <td style="text-align: center;">${p['발행연도']}</td>
@@ -34735,7 +34749,7 @@ function renderPaperTable(papersToRender) {
         <div style="font-size:0.75rem; color: #475569;">(${parseFloat(p['연평균인용지수'] || 0).toFixed(1)})</div>
       </td>
       <td style="text-align: center;">
-        <button type="button" class="link-btn" onclick="event.preventDefault(); event.stopPropagation(); showPaperInfo('${infoArg}')" style="margin-bottom:6px; border:none; cursor:pointer; width:100%;">정보 더보기</button>
+        <button type="button" class="link-btn" onclick="event.preventDefault(); event.stopPropagation(); showPaperInfoById('${p['논문 ID']}')" style="margin-bottom:6px; border:none; cursor:pointer; width:100%;">정보 더보기</button>
         <a href="${kciLink}" target="_blank" class="link-btn print-url" style="width:100%; display:block;">KCI 원문</a>
       </td>
     `;
@@ -34756,15 +34770,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 renderPaperTable(currentDrillDownPapers);
                 return;
             }
-            const filtered = currentDrillDownPapers.filter(p => {
-                const searchStr = [
-                    p['논문명'],
-                    p['저자명'],
-                    p['주제어'],
-                    p['학술지명']
-                ].join(' ').toLowerCase();
-                return searchStr.includes(term);
-            });
+            const filtered = currentDrillDownPapers.filter(p => p.localSearchString && p.localSearchString.includes(term));
             renderPaperTable(filtered);
         });
     }
@@ -34777,20 +34783,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('drill-down-area').style.display = 'none';
                 return;
             }
-            
-            const filtered = fullData.filter(p => {
-                const searchStr = [
-                    p['논문명'],
-                    p['저자명'],
-                    p['소속기관'],
-                    p['주제분야'],
-                    p['주제어'],
-                    p['학술지명'],
-                    p['초록']
-                ].join(' ').toLowerCase();
-                return searchStr.includes(term);
-            });
-            
+            const filtered = fullData.filter(p => p.globalSearchString && p.globalSearchString.includes(term));
             renderDrillDown(filtered, `통합 검색 결과: "${term}"`, 'global');
         });
     }
