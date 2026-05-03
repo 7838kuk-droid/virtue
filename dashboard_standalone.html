@@ -38452,7 +38452,9 @@ function initBubbleChart(processedData) {
     grid: { top: 150, right: 30, bottom: 40, left: 50 },
     title: { 
       text: '영향력 분석 시각화 (Impact Matrix)', 
-      subtext: '[지표 안내] X축: 발행연도  |  Y축: 피인용수  |  원 크기: 네트워크 영향력 지수\n*네트워크 영향력 지수 = 본인의 피인용수 + 본인이 참고한 논문들의 피인용수 총합의 20% 가산점\n피인용수가 0이더라도 주요 연구를 폭넓게 참고(리뷰/종합)한 논문은 원이 큽니다.', 
+      subtext: `[지표 안내] X축: 발행연도  |  Y축: 피인용수  |  원 크기: 네트워크 영향력 지수
+*네트워크 영향력 지수 = 본인의 피인용수 + 본인이 참고한 논문들의 피인용수 총합의 20% 가산점
+피인용수가 0이더라도 주요 연구를 폭넓게 참고(리뷰/종합)한 논문은 원이 큽니다.`, 
       left: 'center',
       itemGap: 14,
       textStyle: { color: '#e2e8f0', fontWeight: 'bold' },
@@ -38936,7 +38938,9 @@ function initNetworkChart(processedData) {
     color: globalColors,
     title: { 
       text: '논문 상호 참조 네트워크 (Citation Network)', 
-      subtext: '점(Node)은 논문을, 선(Edge)은 인용 관계를 나타냅니다.\n점의 크기는 [네트워크 영향력 지수]에 비례합니다. (*네트워크 영향력 지수 = 본인의 피인용수 + 본인이 참고한 논문들의 피인용수 총합의 20% 가산점)\n마우스를 올려 상세 정보를 확인하고 빈 공간을 드래그하여 화면을 이동할 수 있습니다.',
+      subtext: `점(Node)은 논문을, 선(Edge)은 인용 관계를 나타냅니다.
+점의 크기는 [네트워크 영향력 지수]에 비례합니다. (*네트워크 영향력 지수 = 본인의 피인용수 + 본인이 참고한 논문들의 피인용수 총합의 20% 가산점)
+마우스를 올려 상세 정보를 확인하고 빈 공간을 드래그하여 화면을 이동할 수 있습니다.`,
       left: 'center',
       backgroundColor: 'rgba(15, 23, 42, 0.95)',
       padding: 15,
