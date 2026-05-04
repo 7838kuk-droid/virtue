@@ -8,7 +8,127 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js">
+/* Function to generate a real PIE CHART image for a node */
+const pieCache = {};
+
+
+const pieCache = {};
+
+
+const pieCache = {};
+function getPieSymbol(paper) {
+    const nodeCats = paper.categories || [];
+    if (!nodeCats || nodeCats.length <= 1) return null;
+    
+    // Hard-coded color map to be absolutely safe
+    const COLOR_MAP = {
+        "비교철학적 접근": "#00b4d8",
+        "교육학적 접근": "#ff006e",
+        "신학적 접근": "#8338ec",
+        "응용/실천 윤리": "#fb5607",
+        "이론적/규범적 분석": "#ffbe0b"
+    };
+    
+    const colors = nodeCats.map(cat => COLOR_MAP[cat] || '#94a3b8');
+    const cacheKey = colors.join(',');
+    if (pieCache[cacheKey]) return pieCache[cacheKey];
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const radius = 58;
+    const center = 64;
+    
+    let startAngle = -Math.PI / 2;
+    const sliceAngle = (Math.PI * 2) / colors.length;
+    
+    colors.forEach(color => {
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3; // Thicker border for clarity
+        ctx.stroke();
+        startAngle += sliceAngle;
+    });
+    
+    const dataURL = canvas.toDataURL();
+    pieCache[cacheKey] = 'image://' + dataURL;
+    return pieCache[cacheKey];
+}
+;
+    
+    const colors = nodeCats.map(cat => COLOR_MAP[cat] || '#94a3b8');
+    const cacheKey = colors.join(',');
+    if (pieCache[cacheKey]) return pieCache[cacheKey];
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const radius = 58;
+    const center = 64;
+    
+    let startAngle = -Math.PI / 2;
+    const sliceAngle = (Math.PI * 2) / colors.length;
+    
+    colors.forEach(color => {
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3; // Thicker border for clarity
+        ctx.stroke();
+        startAngle += sliceAngle;
+    });
+    
+    const dataURL = canvas.toDataURL();
+    pieCache[cacheKey] = 'image://' + dataURL;
+    return pieCache[cacheKey];
+}
+
+    
+    const colors = nodeCats.map(cat => GLOBAL_COLOR_MAP[cat] || '#94a3b8');
+    const cacheKey = colors.join(',');
+    if (pieCache[cacheKey]) return pieCache[cacheKey];
+    
+    const canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    const ctx = canvas.getContext('2d');
+    const radius = 60;
+    const center = 64;
+    
+    let startAngle = -Math.PI / 2;
+    const sliceAngle = (Math.PI * 2) / colors.length;
+    
+    colors.forEach(color => {
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        startAngle += sliceAngle;
+    });
+    
+    const dataURL = canvas.toDataURL();
+    pieCache[cacheKey] = 'image://' + dataURL;
+    return pieCache[cacheKey];
+}
+
+</script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
@@ -714,7 +834,59 @@ footer a { color: #475569; text-decoration: none; }
   </footer>
 
   <script>
-    window.__DASHBOARD_DATA__ = [
+    
+/* ===== PIE CHART NODE GENERATOR (Injected) ===== */
+function getPieSymbol(paper) {
+    var nodeCats = paper.categories || [];
+    if (!nodeCats || nodeCats.length <= 1) return null;
+    
+    var COLOR_MAP = {
+        "비교철학적 접근": "#00b4d8",
+        "교육학적 접근": "#ff006e",
+        "신학적 접근": "#8338ec",
+        "응용/실천 윤리": "#fb5607",
+        "이론적/규범적 분석": "#ffbe0b"
+    };
+    
+    var colors = [];
+    for (var i = 0; i < nodeCats.length; i++) {
+        colors.push(COLOR_MAP[nodeCats[i]] || '#94a3b8');
+    }
+    
+    var cacheKey = colors.join(',');
+    if (window._pieCache && window._pieCache[cacheKey]) return window._pieCache[cacheKey];
+    if (!window._pieCache) window._pieCache = {};
+    
+    var canvas = document.createElement('canvas');
+    canvas.width = 128;
+    canvas.height = 128;
+    var ctx = canvas.getContext('2d');
+    var radius = 58;
+    var center = 64;
+    
+    var startAngle = -Math.PI / 2;
+    var sliceAngle = (Math.PI * 2) / colors.length;
+    
+    for (var j = 0; j < colors.length; j++) {
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, radius, startAngle, startAngle + sliceAngle);
+        ctx.closePath();
+        ctx.fillStyle = colors[j];
+        ctx.fill();
+        ctx.strokeStyle = '#1e293b';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        startAngle += sliceAngle;
+    }
+    
+    var dataURL = canvas.toDataURL();
+    window._pieCache[cacheKey] = 'image://' + dataURL;
+    return window._pieCache[cacheKey];
+}
+/* ===== END PIE CHART NODE GENERATOR ===== */
+
+window.__DASHBOARD_DATA__ = [
   {
     "논문명": "덕 윤리와 정약용의 덕론",
     "저자명": "오주연;이장희",
@@ -892,6 +1064,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Marsh all Cavendish Academic"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -1074,6 +1250,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "도덕교육연구"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -1213,6 +1392,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Journal of Philosophy of Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -1329,6 +1512,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Philosophy and Public Affairs"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -1547,6 +1734,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": "www.researchgate.net"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -1747,6 +1937,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "Wipf &Stock"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -1952,6 +2145,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -2107,6 +2304,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "동서철학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -2312,6 +2512,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2023,
         "journal": "Bloomsbury Academic"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -2579,6 +2782,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Anselm Academic"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -2706,6 +2912,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -2976,6 +3185,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "신학사상"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -3071,6 +3283,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Korean Journal of Medical Ethics Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -3111,7 +3327,10 @@ footer a { color: #475569; text-decoration: none; }
       "삼진구괘"
     ],
     "논문명_정규화": "덕 윤리의 관점에서 본 『주역(周易)』",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "서옹 석호의 참사람의 윤리적 의미 - ‘덕’ 윤리와의 비교를 통해서 -",
@@ -3236,6 +3455,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "노컷뉴스"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -3426,6 +3648,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Edinburgh University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -3725,6 +3950,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": "terms.naver.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -3993,6 +4221,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Wiley Blackwell"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -4137,6 +4368,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": "Youngin: Medical Educaltion"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -4295,6 +4530,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "ko.wikipedia.org"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -4333,7 +4571,10 @@ footer a { color: #475569; text-decoration: none; }
       "인공지능 윤리"
     ],
     "논문명_정규화": "AI는 인간의 윤리적 판단 능력을 어떻게 변화시키는가 ― 덕 윤리의 관점에서 ―",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "의료적 관점에서 바라본 몸의 증강과 덕 윤리",
@@ -4631,6 +4872,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "geneticliteracyproject.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -4789,6 +5033,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "교육사학연구"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -5050,6 +5299,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Journal of Religious Ethics"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -5253,6 +5505,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "Journal of College and Character"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -5474,6 +5729,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "한국철학논집"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -5629,6 +5887,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -5768,6 +6029,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -5947,6 +6211,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Journal of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -5984,7 +6251,10 @@ footer a { color: #475569; text-decoration: none; }
       "리더의윤리"
     ],
     "논문명_정규화": "리더십 이론과 리더의 윤리에 관한 연구: 덕 윤리와 VBO 모델을 중심으로",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "아우구스티누스와 스탠리 하우어워스의 덕윤리의 비교를 통한 기독교 공동체의 덕 형성과 성숙을 위한 연구",
@@ -6331,6 +6601,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1977,
         "journal": "University of Notre Dame Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -6427,6 +6701,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "범한철학"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -6467,7 +6744,11 @@ footer a { color: #475569; text-decoration: none; }
       "정의의 덕"
     ],
     "논문명_정규화": "정의라는 덕의 인공지능 구현 연구 - 인공지능 덕 윤리 행위 주체(AVA) 아키텍처에 요셉 피퍼의 정의 구조 연결하기",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "비도덕적인 행동에 관한 덕 윤리의 관점 보완 방안 연구 -반두라(A. Bandura)의 도덕적 이탈 메커니즘과의 비교를 통해-",
@@ -6707,6 +6988,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Classical Philology"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -6873,6 +7157,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -7094,6 +7381,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -7283,6 +7573,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -7459,6 +7752,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Journal of the Society of Christian Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -7674,6 +7970,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -7844,6 +8143,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Psychology Science"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -7969,6 +8271,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -8196,6 +8501,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "T&T Clark"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -8351,6 +8659,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1984,
         "journal": "Princeton University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -8879,6 +9190,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Pickwick Publication"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -9076,6 +9390,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -9176,6 +9493,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1972,
         "journal": "The Review of Metaphysics"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -9286,6 +9606,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "中華書局"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -9475,6 +9798,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2025,
         "journal": "www.newsmaker.or.kr"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -9705,6 +10031,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "문예출판사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -9820,6 +10150,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1937,
         "journal": "Economica, New Series"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -10011,6 +10344,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Studies in Christian Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -10217,6 +10553,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -10465,6 +10804,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "Antipode"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -10791,6 +11134,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "삼원서원"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11042,6 +11388,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": "www.lse.ac.uk"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -11080,7 +11430,10 @@ footer a { color: #475569; text-decoration: none; }
       "흄"
     ],
     "논문명_정규화": "흄의 도덕론에 대한 두 수준 덕 기반 공리주의 해석",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "덕 윤리와 칸트 윤리- 덕 윤리의 문제제기에 대한 칸트 윤리적 대응 -",
@@ -11231,6 +11584,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11409,6 +11765,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11534,6 +11893,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Eerdmans"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11633,6 +11995,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "philosophy and Phenomenological Research"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11843,6 +12208,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "아바서원"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -11938,6 +12306,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Rowman & Littlefield"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -11976,7 +12347,10 @@ footer a { color: #475569; text-decoration: none; }
       "안락사"
     ],
     "논문명_정규화": "덕 윤리와 생명윤리: 안락사와 낙태에 관한 덕 윤리의 적용",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "쇼펜하우어의 윤리에 대한 선禪불교적 접근 -쇼펜하우어의 의지와 지눌의 불성을 중심으로-",
@@ -12130,6 +12504,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "불교시대사"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -12268,6 +12645,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -12788,6 +13169,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "New York Times Magazine"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -12915,6 +13299,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Business Ethics Quarterly"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -13034,6 +13421,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -13147,6 +13539,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "The Journal of Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -13270,6 +13665,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "The Monist"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -13394,6 +13792,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Environmental Ethics"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -13476,6 +13877,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Acumen"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -13636,6 +14040,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "Oxford Univ. Press, New York"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -13868,6 +14275,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Literature and Theology"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -14046,6 +14456,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -14174,6 +14588,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1968,
         "journal": "Hutchinson University Library"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -14329,6 +14747,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Blackwell, Publishers Ltd"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -14559,6 +14980,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "서광사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -14821,6 +15245,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Harvard university press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -15159,6 +15587,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1959,
         "journal": "Psychological Review"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -15251,6 +15682,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Proceeding and Addresses of the American Philosophical Association"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -15467,6 +15902,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "YTN"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -15637,6 +16075,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -15785,6 +16226,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -15983,6 +16427,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Münster"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -16120,6 +16567,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Upper Saddle River"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -16347,6 +16797,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "철학"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -16452,6 +16905,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1977,
         "journal": "Fontana"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -16632,6 +17088,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -16751,6 +17210,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -16922,6 +17384,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1960,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -17057,6 +17522,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Wipf and Stock Publishers"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -17243,6 +17711,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -17435,6 +17906,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -17578,6 +18052,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "긍휼"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -17723,6 +18200,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Blackwell Publishing"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -17903,6 +18383,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -18026,6 +18509,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Wilet-Blacwell"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -18180,6 +18666,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Polity Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -18437,6 +18926,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Journal of Aesthetic Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -18597,6 +19090,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "갈무리"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -18764,6 +19260,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "Blackwell Publishing"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -18862,6 +19361,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -18996,6 +19498,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -19082,6 +19587,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "American Philosophical Quarterly"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -19191,6 +19699,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1987,
         "journal": "University of Chicago Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -19306,6 +19817,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Reproductive Biomedicine online"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -19482,6 +19996,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "대학과 선교"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -19628,6 +20145,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -19785,6 +20305,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Journal of Theoretical and Philosophical Psychology"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -20040,6 +20563,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Reception of Western Philosophy and Reconstruction of ‘ETHICS’ in East Asia, International Academic Conference of Ethics in East Asia"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -20180,6 +20706,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Mind"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -20346,6 +20875,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Nursing ethics"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -20460,6 +20992,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "서광사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -20669,6 +21204,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Prometheus Books"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -20709,7 +21248,10 @@ footer a { color: #475569; text-decoration: none; }
       "프로네시스."
     ],
     "논문명_정규화": "고대 덕 윤리와 현대 의료 윤리",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "상황주의사회심리학과 덕윤리 ― 상황주의적 도전과 실천적 지혜를 통한 덕윤리적 대응을 중심으로 ―",
@@ -20887,6 +21429,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -21098,6 +21643,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Princeton University Press"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -21193,6 +21741,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "John Muir Institute for environmental Studies and University of New Mexico"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -21390,6 +21943,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1980,
         "journal": "Proceedings and Addresses of the American Philosophical Association"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -21567,6 +22123,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -21724,6 +22283,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Stanford University"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -21771,7 +22333,10 @@ footer a { color: #475569; text-decoration: none; }
       "윤리"
     ],
     "논문명_정규화": "아리스토텔레스 윤리학의 현대적 계승－매킨타이어의 덕 윤리",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "밀의 공리주의와 덕 윤리학",
@@ -21933,6 +22498,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Encyolopedia of Bioethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -22074,6 +22642,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "박사"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -22259,6 +22830,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1964,
         "journal": "교육과학사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -22392,6 +22967,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -22577,6 +23155,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Indiana University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -22743,6 +23324,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -22883,6 +23467,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Mt Sinai J Med"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -23119,6 +23707,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -23273,6 +23865,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -23475,6 +24070,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1968,
         "journal": "Philosophy East and West"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -23588,6 +24186,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "철학"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -23697,6 +24298,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1986,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -23777,6 +24381,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -23877,6 +24484,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "湖北人民出版社"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -24145,6 +24755,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1948,
         "journal": "Simon and Schuster"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -24477,6 +25090,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Journal of Happiness Studies"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -24515,7 +25131,10 @@ footer a { color: #475569; text-decoration: none; }
       "자기효능감"
     ],
     "논문명_정규화": "심정지 예방을 위한 인적자원 개발 연구 : CPR 수행자신감의 결정요인 탐색",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "덕 윤리(Virtue Ethics)로 고찰한 『종달새의 노래』",
@@ -24672,6 +25291,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Springer"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -24767,6 +25389,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -24905,6 +25530,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -25068,6 +25696,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -25199,6 +25830,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "plato.stanford.edu"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -25363,6 +25997,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "제30차 의학교육학술대회"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -25566,6 +26203,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Springer Science +Business Media"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -25713,6 +26354,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "불교학연구"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -25864,6 +26508,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1976,
         "journal": "The Monist"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -26024,6 +26671,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Belknap Press of Harvard University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -26192,6 +26842,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "University of Notre Dame Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -26286,6 +26939,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "철학과 현실사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -26433,6 +27090,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "University of Hawaiʻi Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -26471,7 +27131,10 @@ footer a { color: #475569; text-decoration: none; }
       "행복"
     ],
     "논문명_정규화": "자연보전에 대한 덕 윤리학적 접근",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "의학교육에서 덕윤리적 전문직업성 적용과 그 함의",
@@ -26715,6 +27378,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1555,
         "journal": "www.jubileecentre.ac.uk"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -26843,6 +27509,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27009,6 +27678,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27143,6 +27815,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1966,
         "journal": "en.wikipedia.org"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -27310,6 +27985,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "infed.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27442,6 +28120,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27603,6 +28284,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "동서철학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27807,6 +28491,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -27982,6 +28669,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -28100,6 +28790,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1993,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -28250,6 +28943,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -28364,6 +29060,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -28481,6 +29180,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1976,
         "journal": "Journal of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -28758,6 +29460,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "후마니타스"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -28955,6 +29660,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1852,
         "journal": "Yale University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -29096,6 +29805,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1970,
         "journal": "The Monist"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -29433,6 +30145,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Cambridge Univ. Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -29638,6 +30353,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "신학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -29851,6 +30570,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "www.hani.co.kr"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -30061,6 +30784,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -30259,6 +30985,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -30384,6 +31113,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2023,
         "journal": "www.weforum.org"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -30521,6 +31253,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1984,
         "journal": "University of Nortre Dame Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -30706,6 +31441,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -30831,6 +31569,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Prentice Hall"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -30998,6 +31739,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -31130,6 +31874,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -31217,6 +31964,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "Wm B. Eerdmans Publishing Co"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근"
     ]
   },
   {
@@ -31384,6 +32135,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "The Journal of Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -31575,6 +32329,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "www.prsa.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -31893,6 +32650,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "경북대학교 동서사상연구소"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -32061,6 +32821,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -32141,6 +32904,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2025,
         "journal": "Preprint"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -32265,6 +33033,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "철학과 현실사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -32464,6 +33235,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "mookas.com"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -32503,7 +33277,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "부산교육대학교",
     "키워드_정규화": [],
     "논문명_정규화": "덕윤리학의 관점과 도덕교육의 통합화를 위한 시도",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "교육학적 접근"
+    ]
   },
   {
     "논문명": "아리스토텔레스와 강증산(姜甑山) 성사(聖師)의 덕(德)이론 고찰 : 덕의 속성 및 목적성과 관련하여",
@@ -32827,6 +33604,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "www.britannica.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -32987,6 +33767,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Wisdom Publications"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -33195,6 +33979,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Journal of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -33452,6 +34239,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "움직임의 철학 : 한국체육철학회지"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -33571,6 +34361,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "Journal of Agriculture and Environmental Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -33740,6 +34533,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "University of California Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -33857,6 +34653,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -33985,6 +34784,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "New York & Oxford University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -34090,6 +34893,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1956,
         "journal": "University of Wisconsin Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -34364,6 +35170,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Snow Lion"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -34535,6 +35344,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "South African Journal of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -34635,6 +35447,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2023,
         "journal": "terms.naver.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -34669,7 +35484,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "경희대학교",
     "키워드_정규화": [],
     "논문명_정규화": "덕윤리의 르네상스(서평)",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "긍정심리학과 행복·덕윤리교육의 적용 - 기독교적 관점에서 -",
@@ -35059,6 +35877,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -35213,6 +36035,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "MIT Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -35418,6 +36243,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "SUNY Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -35648,6 +36476,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Journal of Religious Ethics"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -35795,6 +36627,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Journal of Moral Philosophy"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -35916,6 +36751,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "in Edward Craig ed.,Routledge Encyclopedia of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -36246,6 +37084,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "PhD"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -36803,6 +37645,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Human Kinetics"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -36937,6 +37782,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "news.chosun.com"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -36978,7 +37826,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "전주대학교",
     "키워드_정규화": [],
     "논문명_정규화": "덕윤리의 행위지침력",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "덕론의 스포츠윤리학적 함의",
@@ -37164,6 +38015,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -37301,6 +38155,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -37475,6 +38332,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -37581,6 +38441,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "갈무리"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -37754,6 +38617,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1967,
         "journal": "New York: The Macmillan Company"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -37890,6 +38757,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -38269,6 +39139,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Wiley"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -38502,6 +39376,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "HUMAN AFFAIRS"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -38634,6 +39511,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "철학과현실사"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -38806,6 +39687,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "www.transhumanism.org"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -38974,6 +39858,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -39006,7 +39893,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "공주교육대학교",
     "키워드_정규화": [],
     "논문명_정규화": "낙태의 윤리에서 의무 윤리의 한계와 덕 윤리의 시사점",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "윌라 캐서의 소설에 나타난 돌봄의 덕 윤리",
@@ -39184,6 +40074,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Signs : Journal of Women in Culture and Society"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -39377,6 +40270,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1980,
         "journal": "Allyn & Bacon"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -39511,6 +40408,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Open Court"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -39848,6 +40748,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1964,
         "journal": "Prentice Hall"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -39974,6 +40877,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "T.S. 엘리엇 연구"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -40133,6 +41039,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "비봉출판사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -40430,6 +41339,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "㈜사이언스북스"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -40925,6 +41837,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Journal of Business Ethics"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -41081,6 +41996,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "Bioethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -41221,6 +42139,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Reinbeck bei Hamburg"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -41496,6 +42417,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "몸과 마음"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -41693,6 +42617,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -41894,6 +42821,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1878,
         "journal": "English Translations and the Itala"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -42024,6 +42954,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -42063,7 +42996,11 @@ footer a { color: #475569; text-decoration: none; }
       "퇴계 이황"
     ],
     "논문명_정규화": "도덕교육의 주의·성찰 학습을 위한 퇴계 ‘주경(主敬)’의 수양론 고찰",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "초등교육 스포츠윤리 핵심가치로서 ‘정의’ 원리탐색과 실천 프로그램",
@@ -42234,6 +43171,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": "www.joongang.co.kr"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -42369,6 +43311,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "plato.stanford.edu"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -42841,6 +43786,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "Feminist Economics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -42978,6 +43926,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Cambridge, Cambridge Uni. Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -43173,6 +44124,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -43570,6 +44524,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "John Wiley & Sons, Inc"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -43611,7 +44568,10 @@ footer a { color: #475569; text-decoration: none; }
       "목적론"
     ],
     "논문명_정규화": "맥킨타이어의 목적론 부활 논의에 대한 고찰",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "음식윤리의 주요 쟁점과 그 실천의 문제",
@@ -43745,6 +44705,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Rowman & Littlefield Publishers"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -43866,6 +44829,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "Journal of Moral Education"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -44021,6 +44987,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1922,
         "journal": "Routledge & Kegan Paul"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -44203,6 +45172,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Westminster John Knox Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -44347,6 +45319,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -44510,6 +45485,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "철학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -44647,6 +45625,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Polity Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -44819,6 +45800,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "biz.heraldcorp.com"
       }
+    ],
+    "categories": [
+      "신학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -45004,6 +45989,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "Philosophical Papers 1973-1980"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -45169,6 +46157,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "New York: Routledge"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -45515,6 +46507,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "Springer International Publishing"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -45687,6 +46682,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Council on East Asian Studies, Harvard University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -46182,6 +47181,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -46337,6 +47340,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "제4회 하곡학 국제학술대회, (한국양명학회 학술대회 논문집)"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -46556,6 +47562,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Master Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -46672,6 +47681,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Human Dignity in the Biotech Century"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -46832,6 +47845,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "plato.stanford.edu"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -46913,6 +47929,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -47054,6 +48074,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Wadsworth"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -47086,7 +48109,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "한국외국어대학교",
     "키워드_정규화": [],
     "논문명_정규화": "덕윤리와 전쟁의 수사학적 관계에 대한 연구 -여성주의 윤리학적 관점을 통한 이해-",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "하우어워스와 ‘덕의 공동체’로서의 교회",
@@ -47217,6 +48243,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "Prentice-Hall"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -47630,6 +48660,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -47840,6 +48873,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "서광사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -47992,6 +49029,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "Bantam"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -48149,6 +49189,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "문예출판사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -48294,6 +49337,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1976,
         "journal": "The Journal of Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -48334,7 +49380,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "전주대학교",
     "키워드_정규화": [],
     "논문명_정규화": "의무로부터의 행위에 관하여: 덕윤리적 도전에 대한 칸트주의적 대응을 중심으로",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "아리스토텔레스의 ‘자연적 덕’과 ‘성품적 덕’ 개념을 통해 본 ‘선한 이’의 도덕적 지각",
@@ -48458,6 +49507,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "American Philosophical Quarterly"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -48664,6 +49716,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Philosophy East and West"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -49031,6 +50086,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "漢文古典硏究"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -49163,6 +50221,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -49316,6 +50377,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1986,
         "journal": "The Journal of Medical and Philosophy"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -49494,6 +50559,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -49553,6 +50621,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -49870,6 +50941,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "American Psychologist"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -50020,6 +51094,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "서광사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -50070,7 +51147,11 @@ footer a { color: #475569; text-decoration: none; }
       "현대윤리학"
     ],
     "논문명_정규화": "불교윤리와 현대윤리학의 만남",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "바람직한 공직자상에 대한 윤리학적 접근",
@@ -50278,6 +51359,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1986,
         "journal": "The Journal of Moral Education"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -50505,6 +51589,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2024,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -50691,6 +51779,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Emotion"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -51038,6 +52129,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "Prentice Hall"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -51469,6 +52563,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "Journal of Theoretical and Philosophical Psychology"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -51609,6 +52707,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1976,
         "journal": "Free Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -51918,6 +53019,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "www.korea.kr"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -52068,6 +53172,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "종로서적"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -52226,6 +53335,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -52376,6 +53488,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "Cambridge Univ. Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -52529,6 +53644,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -52930,6 +54048,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -53143,6 +54264,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -53243,6 +54367,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Cambridge UP"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -53449,6 +54576,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -53571,6 +54701,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "The Philosophical quarterly"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -53897,6 +55030,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "생명윤리"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -54098,6 +55235,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -54364,6 +55504,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "Journal of the American Academy of Religion"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -54513,6 +55656,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "福建论坛人文社会科学版"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -54764,6 +55910,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Brill Academic Publisher"
       }
+    ],
+    "categories": [
+      "신학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -54915,6 +56065,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -55058,6 +56211,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "도서출판 씨아이알"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -55183,6 +56339,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "한길사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -55358,6 +56517,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -55509,6 +56671,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "www.yonhapnewstv.co.kr"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -55813,6 +56978,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "Dutton"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -56097,6 +57265,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "Business Horizons"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -56319,6 +57490,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "Princeton University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -56443,6 +57618,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "아카넷"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -56580,6 +57758,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "움직임의 철학 : 한국체육철학회지"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -56770,6 +57951,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "University of Chicago Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -56995,6 +58179,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Freiburg"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -57179,6 +58366,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -57329,6 +58519,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "박영사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -57589,6 +58784,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "한울"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -57743,6 +58941,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "철학과현실사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -57885,6 +59086,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -58041,6 +59245,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -58226,6 +59433,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1974,
         "journal": "Pontifical Institute of Medieval Studies"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -58373,6 +59583,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -58505,6 +59718,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "iep.utm.edu"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -58663,6 +59879,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -58807,6 +60026,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "www.yna.co.kr"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -58981,6 +60203,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "기독교언어문화논집"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -59172,6 +60397,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -59337,6 +60565,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "박사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -59797,6 +61028,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "en.wikipedia.org"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -59952,6 +61186,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "중등교육연구"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -60067,6 +61304,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1979,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -60212,6 +61453,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -60378,6 +61622,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Philosophical Topics"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -60558,6 +61806,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -60749,6 +62000,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Developmental Review 17"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -61016,6 +62270,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Hart Publishing"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -61400,6 +62657,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "Kogan Page"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -61544,6 +62805,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "도서출판 동인"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -61659,6 +62923,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Ergon"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -61777,6 +63044,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Hauerwas, Stanley"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -61855,6 +63125,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62083,6 +63356,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "효학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62271,6 +63547,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1958,
         "journal": "Philosophy"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62397,6 +63677,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1981,
         "journal": "생명의말씀사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62700,6 +63983,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1989,
         "journal": "Berkeley, CA: McCutchan"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62787,6 +64073,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -62952,6 +64241,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -63109,6 +64401,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1988,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -63295,6 +64590,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1964,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -63507,6 +64805,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1986,
         "journal": "Princeton University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -63744,6 +65045,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -63968,6 +65272,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1980,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -64163,6 +65470,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "박사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -64245,6 +65555,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "Rowman & Littlefield Publishers"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -64405,6 +65718,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "www.philosophytalk.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -64560,6 +65876,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "동양문화연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -64599,7 +65918,10 @@ footer a { color: #475569; text-decoration: none; }
       "인"
     ],
     "논문명_정규화": "배려(Care)의 윤리와 인(仁)의 윤리",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근"
+    ]
   },
   {
     "논문명": "증거에 기반한 발달적 인격교육",
@@ -64759,6 +66081,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "en.wikipedia.org"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -64944,6 +66269,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -65138,6 +66466,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "IVP"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -65477,6 +66808,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1993,
         "journal": "Critical Studies in Media Communication"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -65717,6 +67051,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -65892,6 +67229,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Martinus Nijhoff"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -66113,6 +67454,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Fontana"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -66223,6 +67567,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "三民書局"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -66340,6 +67687,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "Politics and Life Sciences"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -66495,6 +67845,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "서양고전학연구"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -66776,6 +68129,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1930,
         "journal": "The Journal of Higher Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -66891,6 +68248,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "McGraw-Hill"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -67048,6 +68408,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "철학"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -67204,6 +68569,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -67314,6 +68682,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Indigenous Psychological Research in Chinese Societies"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -67354,7 +68725,11 @@ footer a { color: #475569; text-decoration: none; }
       "통합성 혹은 진정성"
     ],
     "논문명_정규화": "규범 중심의 생명윤리 논의에 대한 비판 : 행위의 통합성을 중심으로",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "보편적인 도덕발달론의 정초 가능성에 대한 논의",
@@ -67454,6 +68829,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1987,
         "journal": "학지사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -67497,7 +68875,11 @@ footer a { color: #475569; text-decoration: none; }
       "직업윤리"
     ],
     "논문명_정규화": "공학윤리에서 문제해결방안에 관한 연구",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "체육교과에서 지식과 인성교육의 통합적 개념 탐색",
@@ -67755,6 +69137,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "성원사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -67920,6 +69305,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Houghton Mifflin"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -68085,6 +69473,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -68229,6 +69620,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -68424,6 +69819,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1946,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -68590,6 +69989,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "World Health Organization"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -68840,6 +70242,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -69043,6 +70448,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Human Kinetics Publishers"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -69209,6 +70617,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -69392,6 +70803,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Medium"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -69633,6 +71047,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -69758,6 +71175,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -69908,6 +71328,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1968,
         "journal": "The Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -70022,6 +71445,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1968,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -70184,6 +71610,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -70452,6 +71882,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "www.ytn.co.kr"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -70574,6 +72007,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "PUF"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -70689,6 +72125,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "Eburon Academic Publishers"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -70870,6 +72309,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Rowman and Littlefield"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -71037,6 +72479,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "William B. Eerdmans Publishing Company"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -71198,6 +72643,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -71375,6 +72823,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -71563,6 +73014,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "울력"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -71799,6 +73253,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "연합뉴스"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -71924,6 +73381,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1963,
         "journal": "Suhrkamp"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72218,6 +73678,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72320,6 +73783,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Oxford Univ Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72481,6 +73947,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1939,
         "journal": "The American Imago: A Psychoanalytic Journal for the Arts and Sciences"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72684,6 +74153,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "신학사상"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72783,6 +74255,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "동아시아"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -72943,6 +74418,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "Southern Economic Journal"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -73084,6 +74562,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -73262,6 +74745,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -73515,6 +75001,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "De Gruyter"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -73667,6 +75156,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1977,
         "journal": "Frankfurt"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -73841,6 +75333,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "University of California Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -73963,6 +75458,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1927,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -74258,6 +75756,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Lexington Books"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -74443,6 +75945,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "F.a.M"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -74602,6 +76107,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1895,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -74765,6 +76273,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -74916,6 +76427,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1968,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -75101,6 +76615,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "MIT Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -75261,6 +76778,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "terms.naver.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -75394,6 +76914,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Hackett Publishing Company"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -75736,6 +77259,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Emotion"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -75838,6 +77364,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "학지사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -75985,6 +77515,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "plato.stanford.edu"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -76023,7 +77556,10 @@ footer a { color: #475569; text-decoration: none; }
       "virtue ethics"
     ],
     "논문명_정규화": "The Temporary Equilibrium of Ethics in Animal Protection in South Korea",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "덕 인식론이란 무엇인가?",
@@ -76171,6 +77707,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -76209,7 +77748,10 @@ footer a { color: #475569; text-decoration: none; }
       "Virtue ethics"
     ],
     "논문명_정규화": "Ethical Imagination Beyond Violence and Gender: A Possibility of Virtue Ethics in Han Kang’s The Vegetarian",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "보조생식규제와 자녀의 복리 원칙 - I. Glenn Cohen의 논의를 중심으로 -",
@@ -76305,6 +77847,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Legal Theory"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -76485,6 +78030,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "이제이북스"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -76570,6 +78118,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -76771,6 +78322,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "학지사"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -77211,6 +78765,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Periodica de re morali, canonica, liturgica"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -77426,6 +78983,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Basil Blackwell. Inc"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -77610,6 +79171,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -77818,6 +79382,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "Bio Medical Central Genomics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -77892,6 +79459,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -78039,6 +79609,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "철학과 현실사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -78071,7 +79644,11 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "전남대학교",
     "키워드_정규화": [],
     "논문명_정규화": "응용윤리학 방법론에 대한 동양철학적 접근-불교응용윤리학방법론모색을위한시론",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "Xunzi’s Ritual Program as a Response to Han Feizi’s Criticism of Confucianism",
@@ -78269,6 +79846,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "Journal of Religious Ethics"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근"
     ]
   },
   {
@@ -78549,6 +80130,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1986,
         "journal": "The Journal of Moral Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -78850,6 +80434,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "christiansmith.nd.edu"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -78892,7 +80481,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "Central Connecticut State University",
     "키워드_정규화": [],
     "논문명_정규화": "Virtue Ethics and Confucianism",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근"
+    ]
   },
   {
     "논문명": "덕으로서 기업의 사회적 책임 - 스포츠 기업 및 기구를 중심으로 -",
@@ -79100,6 +80692,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "www.unicef.org"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -79321,6 +80916,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "다른우리"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -79553,6 +81151,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Harper Collins Publishers"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -79845,6 +81446,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "도덕교육연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -80097,6 +81701,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "이학사"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -80231,6 +81839,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "철학"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -80380,6 +81991,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -80518,6 +82132,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1959,
         "journal": "Libreria Editrice Dell’ Universita Gregoriana Piazza Della Pilotta"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -80902,6 +82519,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Psychology of Music"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -81070,6 +82690,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1958,
         "journal": "Harper & Row"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -81139,6 +82762,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -81368,6 +82994,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Youthleadership. com"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -81619,6 +83248,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "휴머니스트"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근"
     ]
   },
   {
@@ -81771,6 +83404,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "blog.talkingphilosophy.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -81906,6 +83542,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -82304,6 +83943,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1984,
         "journal": "University of California Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -82352,7 +83994,10 @@ footer a { color: #475569; text-decoration: none; }
       "포스트모더니즘"
     ],
     "논문명_정규화": "도덕 교육의 목적으로 덕과 자율성의 관계",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "교육학적 접근"
+    ]
   },
   {
     "논문명": "郭店楚簡 ｢六德｣ 分章 및 編聯 論議",
@@ -82393,7 +84038,10 @@ footer a { color: #475569; text-decoration: none; }
       "코디콜로지"
     ],
     "논문명_정규화": "郭店楚簡 ｢六德｣ 分章 및 編聯 論議",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "행정윤리에 대한 제한적인 윤리적 자연주의 접근",
@@ -82658,6 +84306,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "한울"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -82848,6 +84499,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "철학논총"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -83001,6 +84655,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "효학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -83171,6 +84828,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "생명윤리"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -83332,6 +84992,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "Ethics & Bioethics(in Central Europe)"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -83373,7 +85036,12 @@ footer a { color: #475569; text-decoration: none; }
       "western ethical tradition"
     ],
     "논문명_정규화": "Spenser's Major Virtues and the Western Ethical Tradition",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근",
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "주희 인심도심론의 윤리학적 성격에 대한 고찰 - 본체론 비판 및 ‘지각’론의 정립과 관련하여 -",
@@ -83553,6 +85221,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Harvard University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -83745,6 +85416,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1974,
         "journal": "Social Research"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -83888,6 +85562,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Verlag J. B. Metzler"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -84033,6 +85710,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Moonji Publishing"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -84073,7 +85753,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "한성대학교",
     "키워드_정규화": [],
     "논문명_정규화": "의무 윤리학(Duty Ethics)의 난점과 덕성 윤리학적 해결",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "데카르트 윤리학과 덕(vertu)",
@@ -84238,6 +85921,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Essays in Philosophy"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -84550,6 +86236,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -84815,6 +86504,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Jossey-Bass"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -85037,6 +86729,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1956,
         "journal": "Herder"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -85177,6 +86872,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Hackett"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -85350,6 +87048,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -85496,6 +87198,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Stanford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -85703,6 +87408,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Drake L. Rev"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -85813,6 +87521,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -85947,6 +87658,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1980,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -86057,6 +87771,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "News"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -86133,6 +87850,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1979,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -86428,6 +88149,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "철학논총"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -86673,6 +88397,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1953,
         "journal": null
       }
+    ],
+    "categories": [
+      "신학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -86707,7 +88435,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "제주교육대학교",
     "키워드_정규화": [],
     "논문명_정규화": "아리스토텔레스 윤리학과 불교윤리학에 있어서 '덕'의 함양",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근"
+    ]
   },
   {
     "논문명": "노자 『도덕경』에 함의된 생명사랑의 무위윤리와 겸허의 덕",
@@ -86883,6 +88614,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "Prentice Hall"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -86989,6 +88723,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1981,
         "journal": "University of Notre Dame Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -87198,6 +88935,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1988,
         "journal": "Administrative Science Quarterly"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -87343,6 +89083,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Journal of Philosophy of Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -87589,6 +89332,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "아카넷"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -87728,6 +89475,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "Cambridge Univ Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -87862,6 +89613,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "De Gruyter"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -88058,6 +89812,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -88337,6 +90094,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "Article by Comedy.com[2018.5.14]"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -88474,6 +90235,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "교육과학연구"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -88588,6 +90352,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Cambridge University Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -88684,6 +90452,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -88809,6 +90580,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "stdweb2.korean.go.kr"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -88846,7 +90620,10 @@ footer a { color: #475569; text-decoration: none; }
       "孫思邈"
     ],
     "논문명_정규화": "道敎 倫理와 孫思邈의 醫德에 관한 硏究",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "아리스토텔레스의 윤리적 아름다움 - 미적 아름다움과의 관계를 중심으로 -",
@@ -89023,6 +90800,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "Parnassos Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -89134,6 +90914,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -89307,6 +91090,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "가톨릭철학"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -89522,6 +91308,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "고려원북스"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -89794,6 +91583,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "Journal of the History of Philosophy"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -90098,6 +91891,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "Ageing and Society"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -90283,6 +92079,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "www.chey.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -90541,6 +92340,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "CCL"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -90707,6 +92509,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1973,
         "journal": "St. Martins Press, New York"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -90943,6 +92748,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Cambrige University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -91259,6 +93067,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "The Commercial Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근"
     ]
   },
   {
@@ -91478,6 +93290,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "중국연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -91641,6 +93456,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -91827,6 +93645,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "한길사"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -91987,6 +93809,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Emotion"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -92178,6 +94003,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Cambridge Univ. Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -92273,6 +94101,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1993,
         "journal": "Dover Editions"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -92452,6 +94283,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": "Peking University Press"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -92932,6 +94766,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "Philosophy, Psychiatry, & Psychology(PPP)"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -93083,6 +94920,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Cambridge UP"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -93228,6 +95068,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1987,
         "journal": "Cambridge UP"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -93325,6 +95168,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": "Dover Publication"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -93590,6 +95437,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Journal of Moral Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -93806,6 +95656,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -94253,6 +96106,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2000,
         "journal": "Journal of Philosophy of Education"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -94451,6 +96308,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -94652,6 +96512,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2023,
         "journal": "Information Fusion"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -94892,6 +96755,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "東洋古典學硏究"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -94930,7 +96796,11 @@ footer a { color: #475569; text-decoration: none; }
       "자연의 연관성"
     ],
     "논문명_정규화": "유교 윤리사상의 유기체론과 생태시민의 덕- 󰡔주역󰡕과 󰡔중용󰡕을 중심으로 -",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근",
+      "응용/실천 윤리"
+    ]
   },
   {
     "논문명": "“덕은 가르쳐질 수 있는가?”라는 물음의 도덕교육적 함의",
@@ -95092,6 +96962,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Clarendon Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -95252,6 +97125,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1964,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -95458,6 +97334,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "www.g-enews.com"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -95583,6 +97462,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "East Asian Philosophy"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -95760,6 +97642,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Les Études philosophiques"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -96011,6 +97896,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "Peeters"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -96138,6 +98026,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "양명학"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -96305,6 +98196,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2025,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -96418,6 +98313,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "Philosophy East and West"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -96898,6 +98796,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "J Nurs Adm"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -97080,6 +98981,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1895,
         "journal": "Paderborn"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -97335,6 +99239,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "Michigan Law Review"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -97485,6 +99392,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2019,
         "journal": "中國文化研究所學報"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -97691,6 +99601,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "Lexington Books"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -97806,6 +99719,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1993,
         "journal": "Columbia UP"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -97929,6 +99845,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Cambridge, U.K.: Cambridge University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -98087,6 +100006,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -98228,6 +100150,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "ctext.org"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -98412,6 +100337,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "www.wto.org"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -98453,7 +100381,10 @@ footer a { color: #475569; text-decoration: none; }
       "xiu yang 修養"
     ],
     "논문명_정규화": "The Categorical Imperative and the EastAsian Doctrine of Self Cultivation -칸트의 정언명령과 동양의 수양론-",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근"
+    ]
   },
   {
     "논문명": "유교윤리의 사회통합적 가능성과 한계",
@@ -98675,6 +100606,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "책세상"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -98806,6 +100740,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "온지논총"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -98936,6 +100873,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1994,
         "journal": "Philosophy East and West"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -99026,6 +100966,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "학고재"
       }
+    ],
+    "categories": [
+      "비교철학적 접근"
     ]
   },
   {
@@ -99167,6 +101110,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "Robotics & AI Ethics"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -99235,6 +101182,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1780,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -99426,6 +101378,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "도서출판 한울"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -99626,6 +101581,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2014,
         "journal": "Cengage Learning"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -99884,6 +101842,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "The Thomist"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -100084,6 +102045,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1951,
         "journal": "Dover Publications, Inc"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -100180,6 +102144,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1972,
         "journal": "Phronesis"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -100346,6 +102313,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2006,
         "journal": "Journal for the Study of the New Testament"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -100470,6 +102440,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "성암사상연구"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "신학적 접근"
     ]
   },
   {
@@ -100703,6 +102677,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -100827,6 +102805,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": null
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -101038,6 +103019,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "성경과 신학"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -101193,6 +103177,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2004,
         "journal": "서양고전학연구"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -101233,7 +103220,10 @@ footer a { color: #475569; text-decoration: none; }
       "행복"
     ],
     "논문명_정규화": "관조(觀照)와 복된 삶－고대 스토아 윤리학의 신학적 기초－",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "신학적 접근"
+    ]
   },
   {
     "논문명": "스피노자 철학에서의 동물과 윤리",
@@ -101364,6 +103354,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "문예출판사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -101524,6 +103517,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "씨아이알"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -101857,6 +103853,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1988,
         "journal": "경문사"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -102013,6 +104012,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1991,
         "journal": "The Boxwood Press"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -102203,6 +104206,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1992,
         "journal": "Stanford University Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -102358,6 +104364,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Ethics"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -102524,6 +104533,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Washington D.C."
       }
+    ],
+    "categories": [
+      "신학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -102836,6 +104849,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "University of Rochester Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -103006,6 +105022,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2002,
         "journal": "Science and Engineering"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -103176,6 +105195,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2022,
         "journal": "plato.stanford.edu"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -103433,6 +105455,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": "State University of New York Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -103583,6 +105608,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1985,
         "journal": "Hackett Publishing Company, Inc"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -103699,6 +105727,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2009,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -103944,6 +105975,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2011,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -104131,6 +106165,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": "Westview Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -104311,6 +106349,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "박사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -104491,6 +106532,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "서울: 집문당."
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -104603,6 +106647,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2025,
         "journal": "news.mt.co.kr"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -104766,6 +106813,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "한울"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -104935,6 +106985,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2016,
         "journal": "國際版<儒敎文化硏究>"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -105189,6 +107242,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -105223,7 +107279,10 @@ footer a { color: #475569; text-decoration: none; }
     "소속기관_정규화": "부산대학교",
     "키워드_정규화": [],
     "논문명_정규화": "환자와 의사의 도덕적 대화를 위한 덕으로서 존중(respect)",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "이론적/규범적 분석"
+    ]
   },
   {
     "논문명": "바울의 덕 사상과 덕 철학의 접점 찾기",
@@ -105588,6 +107647,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2010,
         "journal": "북코리아"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -105819,6 +107881,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2017,
         "journal": "延世醫史學"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -106002,6 +108067,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "Legal Studies"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -106277,6 +108345,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2018,
         "journal": "dic.daum.net"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -106493,6 +108564,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -106621,6 +108695,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1995,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -106803,6 +108880,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -107153,6 +109233,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2008,
         "journal": "Pearson Prentice Hall"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -107564,6 +109647,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1990,
         "journal": "ihrer geschichtlichen Entwicklung"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -107758,6 +109844,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1993,
         "journal": "Dumb Ox Books"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -107899,6 +109988,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2013,
         "journal": "世界宗教文化"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -108107,6 +110199,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Xénophon"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -108182,6 +110277,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": null,
         "journal": "1993rep"
       }
+    ],
+    "categories": [
+      "신학적 접근"
     ]
   },
   {
@@ -108508,6 +110606,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -108675,6 +110776,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2007,
         "journal": "Ashgate"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -108820,6 +110924,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Jossey-Base"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -108926,6 +111033,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1987,
         "journal": "Basil Blackwell"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -109079,6 +111190,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2021,
         "journal": "Oxford University Press"
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -109226,6 +111341,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2005,
         "journal": "International Conference on Knowledge-based and Intelligent Information and Engineering Systems"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -109314,6 +111432,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1997,
         "journal": "Routledge, NY"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -109490,6 +111611,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2020,
         "journal": "news.kbs.co.kr"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -109693,6 +111817,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1998,
         "journal": "문예출판사"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -110002,6 +112129,10 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2012,
         "journal": "news.chosun.com"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -110106,6 +112237,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1963,
         "journal": "University of Chicago Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -110362,6 +112496,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "www.ppc.sas.upenn.edu"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -110404,7 +112541,10 @@ footer a { color: #475569; text-decoration: none; }
       "정언명법"
     ],
     "논문명_정규화": "칸트의 정언명법과 동양의 修養論",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "비교철학적 접근"
+    ]
   },
   {
     "논문명": "초등 스포츠 윤리교육의 쟁점에 대한 일고찰",
@@ -110443,7 +112583,10 @@ footer a { color: #475569; text-decoration: none; }
       "초등학교 스포츠 윤리교육"
     ],
     "논문명_정규화": "초등 스포츠 윤리교육의 쟁점에 대한 일고찰",
-    "참고문헌_정밀분석": []
+    "참고문헌_정밀분석": [],
+    "categories": [
+      "교육학적 접근"
+    ]
   },
   {
     "논문명": "세가지의 윤리적 쟁점들에 대한 스피노자의 입장",
@@ -110601,6 +112744,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1961,
         "journal": "Schocken Books"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -110731,6 +112877,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2003,
         "journal": "범한철학"
       }
+    ],
+    "categories": [
+      "비교철학적 접근",
+      "교육학적 접근",
+      "응용/실천 윤리"
     ]
   },
   {
@@ -110982,6 +113133,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1953,
         "journal": "Basil Blackwell"
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -111146,6 +113300,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "Libr Trends"
       }
+    ],
+    "categories": [
+      "응용/실천 윤리"
     ]
   },
   {
@@ -111273,6 +113430,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2001,
         "journal": "Routledge"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -111379,6 +113539,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 2015,
         "journal": "Sophia Institute Press"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -111500,6 +113663,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1996,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근"
     ]
   },
   {
@@ -111683,6 +113849,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1999,
         "journal": "백산서당"
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -111876,6 +114045,9 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1982,
         "journal": null
       }
+    ],
+    "categories": [
+      "이론적/규범적 분석"
     ]
   },
   {
@@ -111988,6 +114160,11 @@ footer a { color: #475569; text-decoration: none; }
         "year": 1961,
         "journal": null
       }
+    ],
+    "categories": [
+      "교육학적 접근",
+      "응용/실천 윤리",
+      "이론적/규범적 분석"
     ]
   }
 ];
@@ -112993,17 +115170,28 @@ function initNetworkChart(processedData) {
   
   const globalColors = ['#00b4d8', '#ff006e', '#8338ec', '#fb5607', '#ffbe0b'];
 
-  processedData.forEach(paper => {
+    processedData.forEach(paper => {
     if ((paper.cites && paper.cites.length > 0) || (paper.cited_by && paper.cited_by.length > 0)) {
       const cat = paper.categories[0] || "이론적/규범적 분석";
-      nodes.push({
-        id: paper['논문 ID'],
-        name: paper['논문명'],
-        category: cat,
-        value: paper.networkImpactScore || 0,
-        symbolSize: Math.min(Math.max((paper.networkImpactScore || 0) + 10, 10), 60),
-        paperData: paper
-      });
+      
+      // Calculate Pie Symbol if multiple categories exist
+      const nodeRes = typeof getPieSymbol === 'function' ? getPieSymbol(paper) : null;
+      const isImage = typeof nodeRes === 'string' && nodeRes.startsWith('image://');
+      
+      nodes.push(function() {
+        var pieImg = getPieSymbol(paper);
+        var isPie = (typeof pieImg === 'string' && pieImg.indexOf('image://') === 0);
+        return {
+          id: paper['논문 ID'],
+          name: paper.논문명_정규화 || paper['논문명'],
+          category: cat,
+          symbol: isPie ? pieImg : 'circle',
+          value: paper.networkImpactScore || 0,
+          symbolSize: Math.min(Math.max((paper.networkImpactScore || 0) + 10, 10), 60),
+          paperData: paper,
+          itemStyle: isPie ? { color: 'rgba(0,0,0,0)' } : { color: GLOBAL_COLOR_MAP[cat] || '#94a3b8' }
+        };
+      }());
       
       if (paper.cites) {
         paper.cites.forEach(targetId => {
