@@ -114364,7 +114364,7 @@ function processData(rawData) {
       연평균인용지수: parseFloat(annualCitationIdx),
       globalSearchString: [
           paper.논문명_정규화 || paper['논문명'] || '',
-          (paper.authors || []).join(' '), 
+          (paper['저자명'] || ''), 
           paper['소속기관'] || '',
           paper['주제분야'] || '',
           paper['주제어'] || '',
@@ -114373,7 +114373,7 @@ function processData(rawData) {
       ].join(' ').toLowerCase(),
       localSearchString: [
           paper.논문명_정규화 || paper['논문명'] || '',
-          (paper.authors || []).join(' '), 
+          (paper['저자명'] || ''), 
           paper['주제어'] || '',
           paper['학술지명'] || ''
       ].join(' ').toLowerCase()
