@@ -2145,8 +2145,17 @@ window.showPaperInfo = function(encodedData) {
         <div style="height:1px; flex:1; background:linear-gradient(90deg, rgba(16, 185, 129, 0.3), transparent); margin-left:16px;"></div>
       </div>
       <div style="background:rgba(15, 23, 42, 0.4); padding:24px; border-radius:16px; line-height:1.6; font-size:0.85rem; border: 1px solid rgba(255,255,255,0.05); color: #94a3b8; box-shadow: inset 0 0 30px rgba(0,0,0,0.3);">
-        ${(p['참고문헌목록'] && p['참고문헌목록'].length > 0) 
-          ? p['참고문헌목록'].map(ref => `<div style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px;">${ref}</div>`).join('') 
+        ${(p['참고문헌_정밀분석'] && p['참고문헌_정밀분석'].length > 0) 
+          ? p['참고문헌_정밀분석'].map((ref, i) => {
+              const yr = ref.year ? ref.year + '년' : '연도 미상';
+              const jr = ref.journal || '학술지 미상';
+              return '<div style="margin-bottom:10px; border-bottom:1px solid rgba(255,255,255,0.03); padding-bottom:8px; display:flex; align-items:center; gap:8px;">' +
+                '<span style="color:#475569; font-size:0.75rem; min-width:24px;">[' + (i+1) + ']</span>' +
+                '<span style="color:#94a3b8;">' + yr + '</span>' +
+                '<span style="color:#334155;">|</span>' +
+                '<span style="color:#64748b;">' + jr + '</span>' +
+              '</div>';
+            }).join('') 
           : '<div style="text-align:center; padding:30px; color:#475569; font-style:italic;">참고문헌 정보가 제공되지 않는 논문입니다.</div>'}
       </div>
     </div>
