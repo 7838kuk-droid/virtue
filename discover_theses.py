@@ -160,8 +160,23 @@ def inject_dashboard_data(html_path: str, data: list[dict], arr_start: int, arr_
     with open(html_path, "r", encoding="utf-8") as f:
         content = f.read()
     new_json = json.dumps(data, ensure_ascii=False, separators=(",", ":"))
+    
+    # Robust replacement: replace everything from arr_start up to the next </script>
+    start_marker = "window.__DASHBOARD_DATA__ = "
+    start_idx = content.find(start_marker)
+    if start_idx == -1:
+        start_idx = arr_start - len(start_marker)
+        
+    end_idx = content.find("</script>", start_idx)
+    if end_idx == -1:
+        end_idx = arr_end  # Fallback
+        
     with open(html_path, "w", encoding="utf-8") as f:
-        f.write(content[:arr_start] + new_json + content[arr_end:])
+        if content[end_idx-1] == '\n':
+            # keep existing formatting if possible
+            f.write(content[:start_idx + len(start_marker)] + new_json + ";\n" + content[end_idx:])
+        else:
+            f.write(content[:start_idx + len(start_marker)] + new_json + ";\n  " + content[end_idx:])
 
 # ─────────────────────────────────────────────
 # RISS 크롤러 엔진
