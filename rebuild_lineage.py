@@ -80,7 +80,7 @@ def main():
         
     existing_keys = {make_dedup_key(r.get("논문명"), r.get("저자명"), r.get("발행연도")) for r in csv_rows}
     
-    for author in top_authors:
+    for author in []:
         print(f"  → '{author}' 학위논문 검색 중...")
         # 저자 조건으로 RISS 학위논문 검색
         cands = search_riss_theses(author, max_results=5, sort_order='RANK')
