@@ -69,6 +69,26 @@ CATEGORY_KEYWORDS = {
     ],
 }
 
+IRRELEVANT_KEYWORDS = [
+    '공학', '의학', '간호', '화학', '물리', '생물', '수학', '컴퓨터', '건축', 
+    '토목', '전기', '농업', '스포츠', '체육', '부동산', '경영', '마케팅', '회계', 
+    '투자', '설계', '소음', '의과', '음악', '미술', '예술', '시청자', '언론', '셀룰로오스',
+    '기니픽', 'Vibrio', '장신구', '초충도', '해안경관', '가상실험', '산과 염기', '가야금', 
+    '의류', '패션', '생태', '농작업', '냉수침지',
+    'engineering', 'medical', 'nursing', 'chemistry', 'physics', 'biology', 'math', 'computer',
+    'architecture', 'civil', 'electric', 'agriculture', 'sports', 'physical', 'real estate', 'business',
+    'marketing', 'accounting', 'investment', 'design', 'noise', 'art', 'music'
+]
+
+def is_irrelevant(title, inst):
+    text_to_check = f"{title} {inst}".lower()
+    for kw in IRRELEVANT_KEYWORDS:
+        if kw.lower() in text_to_check:
+            # Check if it actually contains strong ethics keywords as well
+            if not any(ek in text_to_check for ek in ['윤리', '도덕', '철학', '칸트', '아리스토텔레스', '덕']):
+                return True
+    return False
+
 # ─────────────────────────────────────────────
 # 유틸리티 함수
 # ─────────────────────────────────────────────
@@ -251,16 +271,20 @@ def search_riss_theses(query, max_results=100, sort_order='RANK'):
                     if len(other_spans) >= 2:
                         degree = other_spans[1]
                 
-                results.append({
-                    '논문 ID': f"RISS_{control_no}",
-                    '논문명': title_text,
-                    '저자명': writer,
-                    '소속기관': assigned,
-                    '발행연도': year,
-                    'degree_raw': degree,
-                    'URL': "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=be54d9b8bc7cdb09&control_no=" + control_no,
-                    'control_no': control_no
-                })
+                if not is_irrelevant(title_text, assigned):
+                    results.append({
+                        '논문 ID': f"RISS_{control_no}",
+                        '논문명': title_text,
+                        '저자명': writer,
+                        '소속기관': assigned,
+                        '발행연도': year,
+                        'degree_raw': degree,
+                        'URL': "https://www.riss.kr/search/detail/DetailView.do?p_mat_type=be54d9b8bc7cdb09&control_no=" + control_no,
+                        'control_no': control_no
+                    })
+                else:
+                    print(f"    [동명이인/무관필터 스킵] {title_text[:30]} ({assigned})")
+                
                 
             print(f"    수집중... ({len(results)} / {max_results})")
             start_count += 10
